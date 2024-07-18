@@ -11,25 +11,44 @@ public class Main {
 
         user_data clients = new user_data();
 
-        System.out.println("Êtes-vous un nouveau client? [Tapez (Oui) ou (Non)]");
-        for (int i = 0; i < 3; i++) {
+        System.out.println("Souhaitez-vous vous inscrire ou vous connecter [Tapez (i) ou (c)]");
         client_response = scanner.nextLine();
-        int incorrect_filling_counter = i;
         switch (client_response.toLowerCase()) {
-            case "oui":
+            case "i":
                 clients.Create_new_client();
                 break;
-            case "non":
+            case "c":
                 clients.Regular_customer();
                 break;
             default:
-                System.out.println("Invalid answer. Please try again!");
-                incorrect_filling_counter = incorrect_filling_counter + 1;
-            if (incorrect_filling_counter == 3)
-                System.out.println("This is not a playground. Perphaps, may you try our servives later on.");
+                treat_incorrect_input(scanner, client_response);
                 break;
             }
-        }
         scanner.close();
+    }
+
+    static void treat_incorrect_input(Scanner sc, String client_response) {
+        System.out.println("Invalid answer. Please try again!");
+        for (int i = 3; i >= 0 ; i--) {
+            client_response = sc.nextLine();
+            if (verify_input(client_response) == 0)
+                System.out.println("Wrong answer. You are left with " + i + " attemps");
+            else
+                break;
+            if (i == 0) {
+                System.out.println("This is not a playground. Perphaps, may you try our servives later on.");
+            }
         }
+    }
+
+    static int verify_input(String reponse) {
+        if (reponse.equalsIgnoreCase("i"))
+            return 2;
+        else if (reponse.equalsIgnoreCase("c"))
+            return 1;
+        else
+            return 0;
+    }
 }
+
+//
