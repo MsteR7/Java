@@ -42,13 +42,17 @@ public class Main {
     }
 
     static int verify_input(String reponse) {
-        if (reponse.equalsIgnoreCase("i"))
+
+        user_data clients = new user_data();
+
+        if (reponse.equalsIgnoreCase("i")) {
+            clients.Create_new_client();
             return 2;
-        else if (reponse.equalsIgnoreCase("c"))
+        } else if (reponse.equalsIgnoreCase("c")) {
+            clients.Regular_customer();
             return 1;
-        else
+        } else {
             return 0;
+        }
     }
 }
-
-//
