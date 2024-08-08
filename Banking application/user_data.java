@@ -34,6 +34,10 @@ public class user_data {
         this.Account_balance = this.Account_balance + amount;
     }*/
 
+    /*void update_phone_number(int number) {
+        this.Phone_number = number;
+    }*/
+
     int generate_id() { // Define as a primary key
         Random random = new Random();
 
