@@ -1,5 +1,3 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.Scanner;
 
 
@@ -9,24 +7,29 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         String client_response;
 
-        user_data clients = new user_data();
+        user_data user = new user_data();
 
         System.out.println("Souhaitez-vous vous inscrire ou vous connecter [Tapez (i) ou (c)]");
         client_response = scanner.nextLine();
         switch (client_response.toLowerCase()) {
             case "i":
-                clients.Create_new_client();
-                access_database();
+                user.get_information_for_registration();
+                user.Create_new_client(user.First_name, user.Last_name, user.Client_id, user.Phone_number);
                 break;
             case "c":
-                clients.Regular_customer();
-                access_database();
+                user.get_information_for_connexion();
+                user.Regular_customer(user.Client_id, user.Phone_number);
                 break;
             default:
                 treat_incorrect_input(scanner, client_response);
                 break;
             }
         scanner.close();
+        //What sesction do you want to access??
+            //Atm = Deposite or withdraw money
+            //Transaction = Do or See all your transactions
+            //Account = List F/L name + ID + Balance
+            // Exit = Quit the program
     }
 
     static void treat_incorrect_input(Scanner sc, String client_response) {
@@ -45,33 +48,19 @@ public class Main {
 
     static int verify_input(String reponse) {
 
-        user_data clients = new user_data();
+        user_data user = new user_data();
 
         if (reponse.equalsIgnoreCase("i")) {
-            clients.Create_new_client();
-            access_database();
+            user.get_information_for_registration();
+            user.Create_new_client(user.First_name, user.Last_name, user.Client_id, user.Phone_number);
             return 2;
         } else if (reponse.equalsIgnoreCase("c")) {
-            clients.Regular_customer();
-            access_database();
+            user.get_information_for_connexion();
+            user.Regular_customer(user.Client_id, user.Phone_number);
             return 1;
         } else {
             return 0;
         }
     }
 
-    static String access_database() {
-
-    try {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Bank_db", "root", "");
-        conn.close();
-        return "Sucess";
-    }
-    catch (Exception e){
-        System.out.println(e);
-        return "Failed";
-        }
-    }
 }
