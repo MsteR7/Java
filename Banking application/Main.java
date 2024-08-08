@@ -1,11 +1,11 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.Scanner;
 
-/*
- * Warnings - exemple negative balance Bank main file
- */
 
 public class Main {
     public static void main(String[] args) {
+
         Scanner scanner = new Scanner(System.in);
         String client_response;
 
@@ -16,9 +16,11 @@ public class Main {
         switch (client_response.toLowerCase()) {
             case "i":
                 clients.Create_new_client();
+                access_database();
                 break;
             case "c":
                 clients.Regular_customer();
+                access_database();
                 break;
             default:
                 treat_incorrect_input(scanner, client_response);
@@ -36,7 +38,7 @@ public class Main {
             else
                 break;
             if (i == 0) {
-                System.out.println("This is not a playground. Perphaps, may you try our servives later on.");
+                System.out.println("This is not a playground. Perphaps, you may try our servives later on.");
             }
         }
     }
@@ -47,12 +49,29 @@ public class Main {
 
         if (reponse.equalsIgnoreCase("i")) {
             clients.Create_new_client();
+            access_database();
             return 2;
         } else if (reponse.equalsIgnoreCase("c")) {
             clients.Regular_customer();
+            access_database();
             return 1;
         } else {
             return 0;
+        }
+    }
+
+    static String access_database() {
+
+    try {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Bank_db", "root", "");
+        conn.close();
+        return "Sucess";
+    }
+    catch (Exception e){
+        System.out.println(e);
+        return "Failed";
         }
     }
 }
